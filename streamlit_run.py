@@ -7,13 +7,14 @@ from transformers import pipeline
 
 st.success('Gratulacje! Z powodzeniem uruchomiłeś aplikację')
 st.title('Translator')
+left_co, cent_co,last_co = st.columns(3)
+with cent_co:
+    st.image("minimal-modern-language-translation-app-symbol-user-interface-theme-3d-illustration-rendering-icon-isolated-png.png")
 
 st.subheader('Instrukcja:')
 st.write('Ta aplikacja pozwala na tłumaczenie tekstu z języka angielskiego na niemiecki oraz analizowanie wydźwięku emocjonalnego tekstu. '
          'Wybierz odpowiednią opcję z menu, aby rozpocząć.')
 
-df = pd.read_csv("DSP_4.csv", sep = ';')
-st.dataframe(df)
 
 st.header('Przetwarzanie języka naturalnego')
 
@@ -37,7 +38,10 @@ elif option == "Tłumaczenie tekstu (angielski na niemiecki)":
         translator = pipeline("translation_en_to_de")
 
         with st.spinner('Tłumaczenie...'):
-            time.sleep(2)
-            translation = translator(text)
-            st.success('Tłumaczenie zakończone!')
-            st.write("Tłumaczenie na niemiecki:", translation[0]['translation_text'])
+            try:
+                time.sleep(2)
+                translation = translator(text)
+                st.success('Tłumaczenie zakończone!')
+                st.write("Tłumaczenie na niemiecki:", translation[0]['translation_text'])
+            except:
+                st.error("Stał się błąd")
